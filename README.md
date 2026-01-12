@@ -1,16 +1,18 @@
 # Low-cost EEG for Alpha and Beta Wave Monitoring
 
 ## Overview
-This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)** and **beta (13-30 Hz)** brain waves. It is designed for educational purposes, providing a hands-on way to learn about **analog and digital filter design** and to study brain activity without the need for expensive medical equipment. The design was made ground up and independently so copy at your own discretion.
+This project demonstrates a custom designed, low-cost EEG system for monitoring **alpha (8-13 Hz)** and **beta (13-30 Hz)** brain waves. It is designed for educational purposes, providing a hands-on way to learn about **analog and digital filter design** and study biological signal processing without the need for expensive medical equipment. 
 
-The project plans to implement a chain of amplification and analog filtering stages to the Teensy 4.0 microcontroller for real-time analysis. The specific analysis code will plot both the output voltage and the corresponding Fast Fourier Transform (FFT) results to observe chnages in frequency information content.
+The system implements a multi-stage analog processing pipeline feeding into a Teensy 4.0 microcontroller for real-time analysis. The accompanying software visualizes both the time-domain voltage and frequency-domain content via Fast Fourier Transform (FFT).
 
 ## Hardware Architecture (Ongoing)
-My design is based off the signal flow block diagram, shown below:
+The design is based on the following signal flow block diagram:
 
 ![Signal flow block diagram](FlowChart.png)
 
-The overall simulation of the system so far using LTSpice can be seen below **note. the second AD620 amplification circuit is not included as it was too computationally intensive**
+### Simulation and Prototyping
+The system was first validated using LTspice to tune component values for frequency response and stability.
+> Note: The simulation below excludes the second gain stage to optimize simulation convergence speed.
 ![Full Circuit Simulation](simulation_images/full_circuit.png)
 
 The current testing board can be seen here **note. second ad620 also not included for testing**
