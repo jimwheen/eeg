@@ -14,6 +14,12 @@ My design is based off the signal flow block diagram, shown below:
 
 ![Signal flow block diagram](FlowChart.png)
 
+The overall simulation of the system so far using LTSpice can be seen below **note. the second AD620 amplification circuit is not included as it was too computationally intensive**
+![Full Circuit Simulation](full_circuit.png)
+
+The current testing board can be seen here **note. second ad620 also not included for testing**
+![Breadboard](breadboard.png)
+
 ### Stage 1: Instrumentation Amplifier (AD620)
 Assuming microvolt level signals (~0.5 to 200 microvolts) the AD620 was configured for a gain of 89.2 to not overamplify the unwanted noise but to bring the signals within appropriate range for analog filtering.
 
