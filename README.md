@@ -9,7 +9,7 @@ The project plans to implement a chain of amplification and analog filtering sta
 
 ## Hardware Architecture (Ongoing)
 My design is based off the signal flow block diagram, shown below:
-![Signal flow block diagram]()
+![Signal flow block diagram](FlowChart.png)
 
 ### Stage 1: Instrumentation Amplifier (AD620)
 Assuming microvolt level signals (~0.5 to 200 microvolts) the AD620 was configured for a gain of 89.2 to not overamplify the unwanted noise but to bring the signals within appropriate range for analog filtering.
