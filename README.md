@@ -15,8 +15,9 @@ The system was first validated using LTspice to tune component values for freque
 > Note: The simulation below excludes the second gain stage to optimize simulation convergence speed.
 ![Full Circuit Simulation](simulation_images/full_circuit.png)
 
-The current testing board can be seen here **note. second ad620 also not included for testing**
-![Breadboard](breadboard.jpg)
+The physical prototype is currently implemented on a breadboard for modular testing.
+> Note: Also doesn't include the second gain stage
+![Breadboard Prototype](breadboard.jpg)
 
 ### Stage 1: Instrumentation Amplifier (AD620)
 Assuming microvolt level signals (~0.5 to 200 microvolts) the AD620 was configured for a gain of 89.2 to not overamplify the unwanted noise but to bring the signals within appropriate range for analog filtering.
