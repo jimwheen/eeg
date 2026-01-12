@@ -12,17 +12,19 @@ The design is based on the following signal flow block diagram:
 
 ### Simulation and Prototyping
 The system was first validated using LTspice to tune component values for frequency response and stability.
-> Note: The simulation below excludes the second gain stage to optimize simulation convergence speed.
+> Note: The simulation below excludes the second gain stage to speed up simulation convergence.
 ![Full Circuit Simulation](simulation_images/full_circuit.png)
 
 The physical prototype is currently implemented on a breadboard for modular testing.
-> Note: Also doesn't include the second gain stage
+> Note: The model also doesn't include the second gain stage.
 ![Breadboard Prototype](breadboard.jpg)
 
-### Stage 1: Instrumentation Amplifier (AD620)
-Assuming microvolt level signals (~0.5 to 200 microvolts) the AD620 was configured for a gain of 89.2 to not overamplify the unwanted noise but to bring the signals within appropriate range for analog filtering.
-
-Using the equation Gain = 1 + 49400/Rg = 1 + 49400/560ohm = 89.2.
+### Stage 1: Pre-Amplification (AD620)
+The first stage uses an AD620 Instrumentation Amplifier to lift the signal out of the noise floor.
+* Gain Setting: Configured for $G \approx 89.2$ V/V.
+* Design Logic: This gain is high enough to capture the signal but low enough to prevent saturation from unwanted DC offsets before filtering.
+* Equation:
+$$G = 1 + \frac{49.4k\Omega}{R_G} = 1 + \frac{49400}{560} \approx 89.2$$
 
 ### Stage 2: Bandpass Filtering (Butterworth/Sallen-Key):
 Implemented bandpass filtering using first a highpass then a low pass second order butterworth filter. The cutoff frequnecy for the low pass was designed to be ~7.23Hz (fc = 1/(2pi*100k*220nF)). The lowpass was initially designed for cutoff of ~32.9Hz (fc = 1/(2pi*100k*220nF)).
