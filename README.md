@@ -55,7 +55,7 @@ The filtered EEG signal is read by one of the adc pins on the teensy. The baud r
 
 The software is written in python and uses the numpy library to apply the FFT to the input signal. Both the input voltage waveform and frequency spectrum is plotted. The buffer size is set to 1000 for close to real time analysis. The signals dc offset is also removed for the fourier analysis my subtracting the mean voltage (essentially applying a high pass filter at 0hz) to ensure the dc offset doesnt overpower the frequency content.
 
-The code can be viewed here. [src/EEG_test.py](src/EEG_test.py)
+The code can be viewed here. [EEG_test.py](EEG_test.py)
 
 
 ## Testing (Progress)
