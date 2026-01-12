@@ -1,7 +1,7 @@
 # Low-cost EEG for Alpha and Beta Wave Monitoring
 
 ## Overview
-This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)** and **beta (13-30 Hz)** brain waves. It is designed for educational purposes, providing a hands-on way to learn about **analog and digital filter design** and to study brain activity without the need for expensive medical equipment.
+This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)** and **beta (13-30 Hz)** brain waves. It is designed for educational purposes, providing a hands-on way to learn about **analog and digital filter design** and to study brain activity without the need for expensive medical equipment. The design was made ground up and independently so copy at your own discretion.
 
 The project plans to implement a chain of amplification and analog filtering stages to the Teensy 4.0 microcontroller for real-time analysis. The specific analysis code will plot both the output voltage and the corresponding Fast Fourier Transform (FFT) results to observe chnages in frequency information content.
 
@@ -43,6 +43,13 @@ After analog filtering the signal is amplied for a second time for analyis on th
 ### Stage 5: Summing Amp. (Bias)
 The output wave is shifted to ensure the correct voltage range is input into the teensy (0V-3.3V)using the voltage divided 3.3V output from the teensy and decoupling capacitor???. The DC offset is ~1.3V close to center for whats accepted by the input pins on the teensy (Vout = [1+Ra/Rb](v1+V2/2). The diodes ensure protection of the teensy input pin from overvoltage events.
 
+Circuit Tested with expected max output:
+![DC Offset](simulation_images/dc_off.png)
+
+Circuit Tested in the case of an overvoltage veent:
+![DC Offset Overvoltage](simulation_images/dc_off_vspike.png)
+
+
 ## Software and Digital Signal Processing (Ongoing)
 The filtered EEG signal is read by one of the adc pins on the teensy. The baud rate is set for 115200 baud to ensure fast enough serial communication. The sample rate is also set for 500hz with a nyquist frequency of 250hz well above the 30Hz beta wave target to avoid aliasing and getting clean output. 
 
@@ -60,11 +67,11 @@ Some tests at various different frequencies are shown below:
 The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is attenuated as expected by the highpass filtering.
 
 ### 13Hz Test
-!![13Hz Response](testing_images/13Hz_test.png)
+![13Hz Response](testing_images/13Hz_test.png)
 The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is minimally attenuated as expected.
 
 ### 60Hz Test
-!![60Hz Response](testing_images/60Hz_test.png)
+![60Hz Response](testing_images/60Hz_test.png)
 The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is strongly attenuated by the notch filter.
 
 
