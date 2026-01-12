@@ -6,3 +6,4 @@ This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)
 The project plans to implement a chain of amplification and analog filtering stages to the Teensy 4.0 microcontroller for real-time analysis. The specific analysis code will plot both the output voltage and the corresponding Fast Fourier Transform (FFT) results to observe chnages in frequency information content.
 
 ## Hardware Architecture
+![Signal flow block diagram](FlowChart.png)
