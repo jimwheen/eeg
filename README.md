@@ -9,6 +9,7 @@ The project plans to implement a chain of amplification and analog filtering sta
 
 ## Hardware Architecture (Ongoing)
 My design is based off the signal flow block diagram, shown below:
+
 ![Signal flow block diagram](FlowChart.png)
 
 ### Stage 1: Instrumentation Amplifier (AD620)
