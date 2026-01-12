@@ -26,12 +26,12 @@ The first stage uses an AD620 Instrumentation Amplifier to lift the signal out o
 * Equation:
 $$G = 1 + \frac{49.4k\Omega}{R_G}$$
 
-### Stage 2: Bandpass Filtering (Butterworth/Sallen-Key):
-Implemented bandpass filtering using first a highpass then a low pass second order butterworth filter. The cutoff frequnecy for the low pass was designed to be ~7.23Hz (fc = 1/(2pi*100k*220nF)). The lowpass was initially designed for cutoff of ~32.9Hz (fc = 1/(2pi*100k*220nF)).
-
-However, after applying the notch filter in simulation the rolloff significantly increased for the lowpass so the cutoff was shifted significantly higher to get closer to the -3dB point. With theoretical of ~72.3Hz (fc = 1/(2pi*22k*100nF)).
-
-This ensured that the desired frequency content would remain for analysis.
+### Stage 2: Active Bandpass Filtering (Sallen-Key / Butterworth)
+I implemented a cascaded filter design to isolate the 8-30 Hz band of interest.
+1. High-Pass Filter: Removes DC offsets and low-frequency electrode drift ($f_c \approx 7.23$ Hz).
+   * $f_c = \frac{1}{2\pi \cdot 100k\Omega \cdot 220nF}$
+2. Low-Pass Filter: Removes high-frequency noise and anti-aliases the signal for the ADC.
+   * Design Iteration: Initially designed for $f_c \approx 32.9$ Hz. However, simulation revealed that loading effects from the subsequent Notch filter stage altered the rolloff. To compensate, I adjusted the theoretical cutoff to 72.3 Hz ($f_c = \frac{1}{2\pi \cdot 22k\Omega \cdot 100nF}$), which successfully aligned the -3dB point to the desired target in the full system response.
 
 ### Stage 3: Twin-T Notch Filter (60 Hz Rejection)
 Since the human body acts like an antenna to decrease power line interference a notch filter was added. The filter follows a bootstrap design to increase the Q factor and have a sharper notch. The design was based off an adjustable [High Q Notch Filter](https://www.ti.com/lit/an/snoa680/snoa680.pdf?ts=1768248220553&ref_url=https%253A%252F%252Fwww.google.com%252F) design. 
