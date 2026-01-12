@@ -50,7 +50,7 @@ The circuit is currently being tested using a fixed sine wave input from a signa
 Some tests at various different frequencies are shown below:
 
 ### 3Hz test
-![3Hz input](FlowChart.png)
+![3Hz Response](testing_images/3Hz_test.png)
 
 
 
