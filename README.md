@@ -5,10 +5,6 @@ This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)
 
 The project plans to implement a chain of amplification and analog filtering stages to the Teensy 4.0 microcontroller for real-time analysis. The specific analysis code will plot both the output voltage and the corresponding Fast Fourier Transform (FFT) results to observe chnages in frequency information content.
 
-## Component Choices / Safety Considerations
-The TL072 chip was chosen for its high input impedance keeping the signal clean for processing. The +9V and -9V rails are battery powered for safety when using the system on humans. Often a driven-right-leg circuit is used for cancelling out noise aswell. This may be added in the future if noise is overwhelming, but I wanted to focus on other filtering techniques first then add if needed. When the electrodes are also integrated I will add a further protection circuit to further protetc in an overvoltage event.
-
-
 ## Hardware Architecture (Ongoing)
 My design is based off the signal flow block diagram, shown below:
 
@@ -75,5 +71,8 @@ The software result matches that of the output oscillscope waveform aswell as th
 ![60Hz Response](testing_images/60Hz_test.png)
 The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is strongly attenuated by the notch filter.
 
+## Component Choices / Safety Considerations
+The TL072 chip was chosen for its high input impedance keeping the signal clean for processing. The +9V and -9V rails are battery powered for safety when using the system on humans and the computer must be disconnected from the wall with an electrically isolated usb input port. Often a driven-right-leg circuit is used for cancelling out noise aswell. This may be added in the future if noise is overwhelming, but I wanted to focus on other filtering techniques first then add if needed. When the electrodes are also integrated I will add a further protection circuit to further protetc in an overvoltage event.
 
-
+## Future Work
+A portection circuit will be simulated and added. Then testing will begin with electrodes. Digital filters may also be added to clean up the true signal. Once a viable product is complete the circuit will be converted to a pcb so it is modular and robust and opensource for others to experment with.
