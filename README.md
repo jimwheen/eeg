@@ -55,7 +55,8 @@ The filtered EEG signal is read by one of the adc pins on the teensy. The baud r
 
 The software is written in python and uses the numpy library to apply the FFT to the input signal. Both the input voltage waveform and frequency spectrum is plotted. The buffer size is set to 1000 for close to real time analysis. The signals dc offset is also removed for the fourier analysis my subtracting the mean voltage (essentially applying a high pass filter at 0hz) to ensure the dc offset doesnt overpower the frequency content.
 
-The code can be viewed here.
+The code can be viewed here. [src/EEG_test.py](src/EEG_test.py)
+
 
 ## Testing (Progress)
 The circuit is currently being tested using a fixed sine wave input from a signal generator at various frequencies to observe the chnages in the frequency repsone and compare teh software resulst with teh oscillsiocpe output. The input is 30mV so only one of the ad620 amplification circuits is being used.
