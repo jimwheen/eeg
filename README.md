@@ -5,6 +5,8 @@ This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)
 
 The project plans to implement a chain of amplification and analog filtering stages to the Teensy 4.0 microcontroller for real-time analysis. The specific analysis code will plot both the output voltage and the corresponding Fast Fourier Transform (FFT) results to observe chnages in frequency information content.
 
+## Component Choices
+
 ## Hardware Architecture (Ongoing)
 My design is based off the signal flow block diagram, shown below:
 ![Signal flow block diagram]()
@@ -31,6 +33,15 @@ After analog filtering the signal is amplied for a second time for analyis on th
 
 ### Stage 5: Summing Amp. (Bias)
 The output wave is shifted to ensure the correct voltage range is input into the teensy (0V-3.3V)using the voltage divided 3.3V output from the teensy and decoupling capacitor???. The DC offset is ~1.3V close to center for whats accepted by the input pins on the teensy (Vout = [1+Ra/Rb](v1+V2/2). The diodes ensure protection of the teensy input pin from overvoltage events.
+
+## Software and Digital Signal Processing (Ongoing)
+The filtered EEG signal is read by one of the adc pins on the teensy. The baud rate is set for 115200 baud to ensure fast enough serial communication. The sample rate is also set for 500hz with a nyquist frequency of 250hz well above the 30Hz beta wave target to avoid aliasing and getting clean output. 
+
+The software is written in python and uses the numpy library to apply the FFT to the input signal. Both the input voltage waveform and frequency spectrum is plotted. The buffer size is set to 1000 for close to real time analysis. The signals dc offset is also removed for the fourier analysis my subtracting the mean voltage (essentially applying a high pass filter at 0hz) to ensure the dc offset doesnt overpower the frequency content.
+
+The code can be viewed here.
+
+## Testing
 
 
 
