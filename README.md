@@ -49,9 +49,17 @@ The circuit is currently being tested using a fixed sine wave input from a signa
 
 Some tests at various different frequencies are shown below:
 
-### 3Hz test
+### 3Hz Test
 ![3Hz Response](testing_images/3Hz_test.png)
+The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is attenuated as expected by the highpass filtering.
 
+### 13Hz Test
+!![13Hz Response](testing_images/13Hz_test.png)
+The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is minimally attenuated as expected.
+
+### 60Hz Test
+!![60Hz Response](testing_images/60Hz_test.png)
+The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is strongly attenuated by the notch filter.
 
 
 
