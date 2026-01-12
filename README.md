@@ -26,3 +26,11 @@ Since the human body acts like an antenna to decrease power line interference a 
 
 In practice however this circuit was giving me problems leading to a shifted notch and reduced Q so I've temporily grounded the bootstrap and will see if its needed when testing later.
 
+### Stage 4: Instrumentation Amplifier (AD620)
+After analog filtering the signal is amplied for a second time for analyis on the computer. Currently the second amplification circuit will be the same as in stage 1 with a potnetitiomter to adjust the gain in order to set the signal at the appropraite scale for analysis.
+
+### Stage 5: Summing Amp. (Bias)
+The output wave is shifted to ensure the correct voltage range is input into the teensy (0V-3.3V)using the voltage divided 3.3V output from the teensy and decoupling capacitor???. The DC offset is ~1.3V close to center for whats accepted by the input pins on the teensy (Vout = [1+Ra/Rb](v1+V2/2). The diodes ensure protection of the teensy input pin from overvoltage events.
+
+
+
