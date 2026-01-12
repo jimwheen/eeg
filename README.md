@@ -35,7 +35,8 @@ $$f_c = \frac{1}{2\pi \cdot R \cdot C}$$
    * Design Iteration: Initially designed for $f_c \approx 32.9$ Hz. However, simulation revealed that loading effects from the subsequent Notch filter stage altered the rolloff. To compensate, I adjusted the theoretical cutoff to 72.3 Hz, which brought -3dB point closer to 30 Hz.
 
 ### Stage 3: Twin-T Notch Filter (60 Hz Rejection)
-Since the human body acts like an antenna to decrease power line interference a notch filter was added. The filter follows a bootstrap design to increase the Q factor and have a sharper notch. The design was based off an adjustable [High Q Notch Filter](https://www.ti.com/lit/an/snoa680/snoa680.pdf?ts=1768248220553&ref_url=https%253A%252F%252Fwww.google.com%252F) design. 
+To reject power line interference (the dominant noise source) I implemented and active Twin-T Notch filter.
+* Design: Based on a high-Q bootstrap design (Reference: [TI Application Note SNOA680](https://www.ti.com/lit/an/snoa680/snoa680.pdf?ts=1768248220553&ref_url=https%253A%252F%252Fwww.google.com%252F)).
 
 In practice however this circuit was giving me problems leading to a shifted notch and reduced Q so I've temporily grounded the bootstrap and will see if its needed when testing later.
 
