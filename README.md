@@ -5,5 +5,24 @@ This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)
 
 The project plans to implement a chain of amplification and analog filtering stages to the Teensy 4.0 microcontroller for real-time analysis. The specific analysis code will plot both the output voltage and the corresponding Fast Fourier Transform (FFT) results to observe chnages in frequency information content.
 
-## Hardware Architecture
+## Hardware Architecture (Ongoing)
+My design is based off the signal flow block diagram, shown below:
 ![Signal flow block diagram](FlowChart.png)
+
+### Stage 1: Instrumentation Amplifier (AD620)
+Assuming microvolt level signals (~0.5 to 200 microvolts) the AD620 was configured for a gain of 89.2 to not overamplify the unwanted noise but to bring the signals within appropriate range for analog filtering.
+
+Using the equation Gain = 1 + 49400/Rg = 1 + 49400/560ohm = 89.2.
+
+### Stage 2: Bandpass Filtering (Butterworth/Sallen-Key):
+Implemented bandpass filtering using first a highpass then a low pass second order butterworth filter. The cutoff frequnecy for the low pass was designed to be ~7.23Hz (fc = 1/(2pi*100k*220nF)). The lowpass was initially designed for cutoff of ~32.9Hz (fc = 1/(2pi*100k*220nF)).
+
+However, after applying the notch filter in simulation the rolloff significantly increased for the lowpass so the cutoff was shifted significantly higher to get closer to the -3dB point. With theoretical of ~72.3Hz (fc = 1/(2pi*22k*100nF)).
+
+This ensured that the desired frequency content would remain for analysis.
+
+### Stage 3: Twin-T Notch Filter (60 Hz Rejection)
+Since the human body acts like an antenna to decrease power line interference a notch filter was added. The filter follows a bootstrap design to increase the Q factor and have a sharper notch. The design was based off an adjustable [High Q Notch Filter](https://www.ti.com/lit/an/snoa680/snoa680.pdf?ts=1768248220553&ref_url=https%253A%252F%252Fwww.google.com%252F) design. 
+
+In practice however this circuit was giving me problems leading to a shifted notch and reduced Q so I've temporily grounded the bootstrap and will see if its needed when testing later.
+
