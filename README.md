@@ -29,7 +29,7 @@ $$G = 1 + \frac{49.4k\Omega}{R_G}$$
 ### Stage 2: Active Bandpass Filtering (Sallen-Key / Butterworth)
 I implemented a cascaded filter design to isolate the 8-30 Hz band of interest.
 * Equation:
-$$G = \frac{1}{2\pi \cdot R \cdot C}$$
+$$f_c = \frac{1}{2\pi \cdot R \cdot C}$$
 1. High-Pass Filter: Removes DC offsets and low-frequency electrode drift ($f_c \approx 7.23$ Hz).
 2. Low-Pass Filter: Removes high-frequency noise and anti-aliases the signal for the ADC.
    * Design Iteration: Initially designed for $f_c \approx 32.9$ Hz. However, simulation revealed that loading effects from the subsequent Notch filter stage altered the rolloff. To compensate, I adjusted the theoretical cutoff to 72.3 Hz, which successfully aligned the -3dB point to the desired target in the full system response.
