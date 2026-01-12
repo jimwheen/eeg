@@ -24,7 +24,7 @@ The first stage uses an AD620 Instrumentation Amplifier to lift the signal out o
 * Gain Setting: Configured for $G \approx 89.2$.
 * Design Logic: This gain is high enough to capture the signal but low enough to prevent saturation from unwanted DC offsets before filtering.
 * Equation:
-$$G = 1 + \frac{49.4k\Omega}{R_G} 
+$$G = 1 + \frac{49.4k\Omega}{R_G}$$
 
 ### Stage 2: Bandpass Filtering (Butterworth/Sallen-Key):
 Implemented bandpass filtering using first a highpass then a low pass second order butterworth filter. The cutoff frequnecy for the low pass was designed to be ~7.23Hz (fc = 1/(2pi*100k*220nF)). The lowpass was initially designed for cutoff of ~32.9Hz (fc = 1/(2pi*100k*220nF)).
