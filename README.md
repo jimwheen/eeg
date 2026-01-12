@@ -5,7 +5,9 @@ This project demonstrates a low-cost EEG system for monitoring **alpha (8-13 Hz)
 
 The project plans to implement a chain of amplification and analog filtering stages to the Teensy 4.0 microcontroller for real-time analysis. The specific analysis code will plot both the output voltage and the corresponding Fast Fourier Transform (FFT) results to observe chnages in frequency information content.
 
-## Component Choices
+## Component Choices / Safety Considerations
+The TL072 chip was chosen for its high input impedance keeping the signal clean for processing. The +9V and -9V rails are battery powered for safety when using the system on humans. Often a driven-right-leg circuit is used for cancelling out noise aswell. This may be added in the future if noise is overwhelming, but I wanted to focus on other filtering techniques first then add if needed. When the electrodes are also integrated I will add a further protection circuit to further protetc in an overvoltage event.
+
 
 ## Hardware Architecture (Ongoing)
 My design is based off the signal flow block diagram, shown below:
@@ -42,7 +44,14 @@ The software is written in python and uses the numpy library to apply the FFT to
 
 The code can be viewed here.
 
-## Testing
+## Testing (Progress)
+The circuit is currently being tested using a fixed sine wave input from a signal generator at various frequencies to observe the chnages in the frequency repsone and compare teh software resulst with teh oscillsiocpe output. The input is 30mV so only one of the ad620 amplification circuits is being used.
+
+Some tests at various different frequencies are shown below:
+
+### 3Hz test
+![3Hz input](FlowChart.png)
+
 
 
 
