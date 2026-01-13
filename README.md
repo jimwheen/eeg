@@ -51,7 +51,7 @@ The Teensy ADC requires a 0V–3.3V input range.
 Verification of DC Bias:
 ![DC Offset LTspice Simulation](simulation_images/dc_off.png)
 
-Circuit Tested in the case of an overvoltage veent:
+Verification of Over-Voltage Protection:
 ![Protection Circuit Test](simulation_images/dc_off_vspike.png)
 
 
