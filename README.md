@@ -1,7 +1,7 @@
 # Low-cost EEG for Alpha and Beta Wave Monitoring
 
 ## Overview
-This project demonstrates a custom designed, low-cost EEG system for monitoring **alpha (8-13 Hz)** and **beta (13-30 Hz)** brain waves. It is designed for educational purposes, providing a hands-on way to learn about **analog and digital filter design** and study biological signal processing without the need for expensive medical equipment. 
+This project demonstrates a custom designed, low-cost EEG system for monitoring **alpha (8-13 Hz)** and **beta (13-30 Hz)** brain waves. It is designed for educational purposes, providing a hands-on way to learn about analog and digital filter design and study biological signal processing without the need for expensive medical equipment. 
 
 The system implements a multi-stage analog processing pipeline feeding into a Teensy 4.0 microcontroller for real-time analysis. The accompanying software visualizes both the time-domain voltage and frequency-domain content via Fast Fourier Transform (FFT).
 
