@@ -5,7 +5,7 @@ This project demonstrates a custom designed, low-cost EEG system for monitoring 
 
 The system implements a multi-stage analog processing pipeline feeding into a Teensy 4.0 microcontroller for real-time analysis. The accompanying software visualizes both the time-domain voltage and frequency-domain content via Fast Fourier Transform (FFT).
 
-## Hardware Architecture (Ongoing)
+## Hardware Architecture
 The design is based on the following signal flow block diagram:
 
 ![Signal flow block diagram](FlowChart.png)
@@ -38,48 +38,57 @@ $$f_c = \frac{1}{2\pi \cdot R \cdot C}$$
 To reject power line interference (the dominant noise source) I implemented and active Twin-T Notch filter.
 * Design: Based on a high-Q bootstrap design (Reference: [TI Application Note SNOA680](https://www.ti.com/lit/an/snoa680/snoa680.pdf?ts=1768248220553&ref_url=https%253A%252F%252Fwww.google.com%252F)).
 
-In practice however this circuit was giving me problems leading to a shifted notch and reduced Q so I've temporily grounded the bootstrap and will see if its needed when testing later.
+However, during physical testing the bootstrapping feedback loop introduced instability and frequency drift. For the current revision, I have grounded the bootstrap node to prioritize stability over Q-factor.
 
 ### Stage 4: Instrumentation Amplifier (AD620)
-After analog filtering the signal is amplied for a second time for analyis on the computer. Currently the second amplification circuit will be the same as in stage 1 with a potnetitiomter to adjust the gain in order to set the signal at the appropraite scale for analysis.
+A second amplification stage brings the filtered signal to appropriate voltages for the ADC. This stage matches the configuration of Stage 1 but includes a potentiometer for gain adjustment based on signal strength.
 
-### Stage 5: Summing Amp. (Bias)
-The output wave is shifted to ensure the correct voltage range is input into the teensy (0V-3.3V)using the voltage divided 3.3V output from the teensy and decoupling capacitor???. The DC offset is ~1.3V close to center for whats accepted by the input pins on the teensy (Vout = [1+Ra/Rb](v1+V2/2). The diodes ensure protection of the teensy input pin from overvoltage events.
+### Stage 5: DC Bias and ADC Protection
+The Teensy ADC requires a 0V–3.3V input range.
+* Biasing: A summing amplifier configuration shifts the AC signal to a DC offset of ~1.4V (Close to Mid-rail).
+* Protection: Clamping diodes (1N4148) are installed to direct voltage spikes to the rails, protecting the microcontroller pins during transient events.
 
-Circuit Tested with expected max output:
-![DC Offset](simulation_images/dc_off.png)
+Verification of DC Bias:
+![DC Offset LTspice Simulation](simulation_images/dc_off.png)
 
 Circuit Tested in the case of an overvoltage veent:
-![DC Offset Overvoltage](simulation_images/dc_off_vspike.png)
+![Protection Circuit Test](simulation_images/dc_off_vspike.png)
 
 
-## Software and Digital Signal Processing (Ongoing)
-The filtered EEG signal is read by one of the adc pins on the teensy. The baud rate is set for 115200 baud to ensure fast enough serial communication. The sample rate is also set for 500hz with a nyquist frequency of 250hz well above the 30Hz beta wave target to avoid aliasing and getting clean output. 
+## Software and Digital Signal Processing 
+The filtered EEG signal is digitized by the Teensy 4.0 and streamed to a Python application.
 
-The software is written in python and uses the numpy library to apply the FFT to the input signal. Both the input voltage waveform and frequency spectrum is plotted. The buffer size is set to 1000 for close to real time analysis. The signals dc offset is also removed for the fourier analysis my subtracting the mean voltage (essentially applying a high pass filter at 0hz) to ensure the dc offset doesnt overpower the frequency content.
+* Microcontroller: Samples at 500 Hz (Nyquist = 250 Hz, well above the 30 Hz Beta target) and streams over Serial at 115200 baud.
+* Python Application
+  * Data Handling: Uses a rolling buffer (N=1000) for real-time analysis.
+  * DSP: numpy.fft performs a Fast Fourier Transfrom to extract frequency content.
+  * DC Removal: A digital high-pass filter (mean subtraction) is applied before the FFT to prevent the DC bias from affecting low frequency data.
 
-The code can be viewed here. [EEG_test.py](EEG_test.py)
+[View the Python Code Here](EEG_test.py)
 
 
-## Testing (Progress)
-The circuit is currently being tested using a fixed sine wave input from a signal generator at various frequencies to observe the chnages in the frequency repsone and compare teh software resulst with teh oscillsiocpe output. The input is 30mV so only one of the ad620 amplification circuits is being used.
+## Testing and Validation
+Current testing is done with a function generator to inject known sine waves (30mV amplitude) into the signal chain. This verifies that the software FFT matches the physcial oscilloscope output.
 
-Some tests at various different frequencies are shown below:
-
-### 3Hz Test
+### High-Pass Verification (3 Hz Input)
 ![3Hz Response](testing_images/3Hz_test.png)
-The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is attenuated as expected by the highpass filtering.
+Result: The signal is attenuated, confirming the High-Pass filter is correctly blocking low-frequencies below the 7 Hz cutoff.
 
-### 13Hz Test
+### Passband Verification (13 Hz Input)
 ![13Hz Response](testing_images/13Hz_test.png)
-The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is minimally attenuated as expected.
+Result: The signal passes with minimal attenuation. The FFT shows a clean spike at 13 Hz confirming functionality.
 
-### 60Hz Test
+### Notch Filter Verification (60 Hz Input)
 ![60Hz Response](testing_images/60Hz_test.png)
-The software result matches that of the output oscillscope waveform aswell as the input sine wave frequency as seen by the FFT spike. The signal strength is strongly attenuated by the notch filter.
+Result: The 60 Hz input is significantly attenuated, validating the Twin-T notch filter's rejection of power line noise.
 
-## Component Choices / Safety Considerations
-The TL072 chip was chosen for its high input impedance keeping the signal clean for processing. The +9V and -9V rails are battery powered for safety when using the system on humans and the computer must be disconnected from the wall with an electrically isolated usb input port. Often a driven-right-leg circuit is used for cancelling out noise aswell. This may be added in the future if noise is overwhelming, but I wanted to focus on other filtering techniques first then add if needed. When the electrodes are also integrated I will add a further protection circuit to further protetc in an overvoltage event.
+## Component Choices & Safety Considerations
+* TL072 Op-Amps: Selected for JFET inputs (ultra-high input impedance) to minimize current draw from electrode signals.
+* Isolation: The system is strictly battery-powered (+9V and -9V) to ensure complete electrical isolation.
+* Computer Safety: When connected to a PC an electrically isolated USB hub is required.
+* Future Safety: A Driven-Right-Leg (DRL) circuit and additional input protection clamps are planned for the final prototype.
 
-## Future Work
-A portection circuit will be simulated and added. Then testing will begin with electrodes. Digital filters may also be added to clean up the true signal. Once a viable product is complete the circuit will be converted to a pcb so it is modular and robust and opensource for others to experment with.
+## Future Roadmap
+* PCB Design: Convert the breadboard prototype to a PCB.
+* Electrode Integration: Begin testing with electrodes and human subjects.
+* Digital Filtering: Implement additional filters using Python for further noise reduction.
